@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EFI Boot Screen</title>
+<style>
+@font-face {
+    font-family: BiosFont;
+    src: url('bios.ttf');
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    background:#000;
+    color:#fff;
+    font-family: BiosFont, monospace;
+    font-size:20px;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+}
+/* 固定左下角 */
+.bottom-left{
+    position:absolute;
+    left:16px;
+    bottom:16px;
+}
+</style>
+</head>
+<body>
+<div class="bottom-left">
+Press &lt;DEL&gt; to enter Setup,<br>
+ &lt;F11&gt; for Boot Menu.
+</div>
+
+<script>
+function goBoot(){
+    window.location.href = "sysboot.html";
+}
+let timer = setTimeout(goBoot,5000);
+document.addEventListener('keydown',function(){
+    clearTimeout(timer);
+    goBoot();
+});
+</script>
+</body>
+</html>

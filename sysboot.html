@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Boot Screen</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    background:#000000;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    position:relative;
+}
+.logo{
+    position:absolute;
+    top:35%;
+    left:50%;
+    transform:translateX(-50%);
+    max-width:14vw;
+}
+.boot-resource{
+    position:absolute;
+    top:60%;
+    left:50%;
+    transform:translateX(-50%);
+    max-width:5vw;
+}
+</style>
+</head>
+<body>
+<img class="logo" src="logo.png">
+<img class="boot-resource" src="boot_resource.gif">
+
+<script>
+setTimeout(()=>{
+    window.location.href="wait.html";
+},10000);
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Boot Page</title>
+<style>
+@font-face {
+    font-family: SysFont;
+    src: url('sys.ttf');
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    background-color:#0078d4;
+    position:relative;
+    font-family: SysFont, sans-serif;
+}
+.center-gif{
+    position:absolute;
+    top:35%;
+    left:50%;
+    transform:translateX(-50%);
+    max-width:50%;
+}
+.text-wait{
+    position:absolute;
+    top:60%;
+    left:50%;
+    transform:translateX(-50%);
+    color:#ffffff;
+    font-size:44px;
+}
+</style>
+</head>
+<body>
+<img class="center-gif" src="boot_resource.gif">
+<div class="text-wait">Please wait...</div>
+
+<script>
+setTimeout(()=>{
+    window.location.href="welcome.html";
+},5000);
+</script>
+</body>
+</html>

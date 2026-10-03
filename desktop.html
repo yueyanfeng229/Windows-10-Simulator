@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Desktop</title>
+<style>
+@font-face {
+    font-family: SysFont;
+    src: url('sys.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    font-family: SysFont, "Segoe UI", Tahoma, sans-serif;
+    background: #000;
+}
+
+/* Desktop Wallpaper */
+.wallpaper {
+    position: absolute;
+    inset: 0;
+    background: url('desktop.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: 1;
+}
+
+/* Taskbar */
+.taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    z-index: 10;
+}
+
+.start-btn {
+    height: 36px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.time-text {
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* Windows 10 Start Menu */
+.startmenu {
+    position: absolute;
+    bottom: 48px;
+    left: 0;
+    width: 560px;
+    height: 640px;
+    background: rgba(31, 31, 31, 0.96);
+    color: #fff;
+    display: none;
+    flex-direction: column;
+    z-index: 20;
+    box-shadow: 6px 0 18px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+/* Top User Area */
+.startmenu-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.startmenu-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.startmenu-user {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* Main Body: Left App List + Right Tiles */
+.startmenu-body {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+}
+
+/* Left App List */
+.startmenu-apps {
+    width: 220px;
+    overflow-y: auto;
+    padding: 6px 0;
+    background: rgba(20, 20, 20, 0.6);
+}
+
+.app-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #eee;
+}
+
+.app-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.app-icon {
+    width: 24px;
+    height: 24px;
+    background: #0078d4;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #fff;
+}
+
+/* Right Tile Area */
+.startmenu-tiles {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+.tile-group-title {
+    font-size: 12px;
+    color: #aaa;
+    margin: 0 4px 8px;
+}
+
+.tile-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.tile {
+    background: #0078d4;
+    height: 72px;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 8px;
+    font-size: 12px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.tile.green { background: #107c10; }
+.tile.yellow { background: #d8a21b; }
+.tile.red { background: #e81123; }
+.tile.purple { background: #8732a0; }
+.tile.dark { background: #333; }
+
+.tile-icon {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 22px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 2px;
+}
+
+/* Bottom Footer */
+.startmenu-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(20, 20, 20, 0.5);
+    position: relative;
+}
+
+.power-btn,
+.settings-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: #eee;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.power-btn:hover,
+.settings-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.power-icon,
+.settings-icon {
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 2px;
+}
+
+/* Power 二级菜单 */
+.power-submenu {
+    position: absolute;
+    right: 0;
+    bottom: 42px;
+    background: #222222;
+    box-shadow: 3px 3px 12px #00000077;
+    border-radius: 4px;
+    display: none;
+    z-index: 30;
+}
+.power-submenu-item{
+    padding:9px 16px;
+    font-size:13px;
+    color:#eee;
+    cursor:pointer;
+}
+.power-submenu-item:hover{
+    background:#3a3a3a;
+}
+</style>
+</head>
+
+<body>
+<div class="wallpaper"></div>
+
+<div class="taskbar">
+    <img id="startBtnImg" class="start-btn" src="start.png" alt="Start">
+    <div class="time-text" id="clock"></div>
+</div>
+
+<div id="startMenu" class="startmenu">
+    <div class="startmenu-header">
+        <img class="startmenu-avatar" src="userlogo.png" alt="User">
+        <div class="startmenu-user">User</div>
+    </div>
+
+    <div class="startmenu-body">
+        <div class="startmenu-apps">
+            <div class="app-item">
+                <div class="app-icon">E</div>
+                <span>Microsoft Edge</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">S</div>
+                <span>Settings</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">O</div>
+                <span>OneDrive</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">C</div>
+                <span>Calculator</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">N</div>
+                <span>Notepad</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">W</div>
+                <span>Windows Security</span>
+            </div>
+        </div>
+
+        <div class="startmenu-tiles">
+            <div class="tile-group-title">Pinned</div>
+            <div class="tile-grid">
+                <div class="tile">
+                    <div class="tile-icon"></div>
+                    <span>Mail</span>
+                </div>
+                <div class="tile green">
+                    <div class="tile-icon"></div>
+                    <span>Calendar</span>
+                </div>
+                <div class="tile">
+                    <div class="tile-icon"></div>
+                    <span>Microsoft Edge</span>
+                </div>
+                <div class="tile yellow">
+                    <div class="tile-icon"></div>
+                    <span>Photos</span>
+                </div>
+                <div class="tile dark">
+                    <div class="tile-icon"></div>
+                    <span>Store</span>
+                </div>
+                <div class="tile red">
+                    <div class="tile-icon"></div>
+                    <span>Movies & TV</span>
+                </div>
+                <div class="tile purple">
+                    <div class="tile-icon"></div>
+                    <span>Groove Music</span>
+                </div>
+                <div class="tile">
+                    <div class="tile-icon"></div>
+                    <span>OneNote</span>
+                </div>
+                <div class="tile dark">
+                    <div class="tile-icon"></div>
+                    <span>Settings</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="startmenu-footer">
+        <div class="settings-btn">
+            <div class="settings-icon"></div>
+            <span>Settings</span>
+        </div>
+        <div class="power-btn" id="powerBtn">
+            <div class="power-icon"></div>
+            <span>Power</span>
+            <div class="power-submenu" id="powerSub">
+                <div class="power-submenu-item" id="shutdownItem">Shut down</div>
+                <div class="power-submenu-item" id="restartItem">Restart</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateClock() {
+    const now = new Date();
+    let h = now.getHours();
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12;
+    h = h ? h : 12;
+    const m = String(now.getMinutes()).padStart(2, "0");
+    const s = String(now.getSeconds()).padStart(2, "0");
+    document.getElementById("clock").textContent = `${h}:${m}:${s} ${ampm}`;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+const startBtnImg = document.getElementById("startBtnImg");
+const startMenu = document.getElementById("startMenu");
+const powerBtn = document.getElementById("powerBtn");
+const powerSub = document.getElementById("powerSub");
+const shutdownItem = document.getElementById("shutdownItem");
+const restartItem = document.getElementById("restartItem");
+let menuOpen = false;
+
+function toggleStartMenu() {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+        startBtnImg.src = "starts.png";
+        startMenu.style.display = "flex";
+    } else {
+        startBtnImg.src = "start.png";
+        startMenu.style.display = "none";
+        powerSub.style.display = "none";
+    }
+}
+
+startBtnImg.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleStartMenu();
+});
+
+//点击Power弹出二级菜单
+powerBtn.addEventListener("click", function(e){
+    e.stopPropagation();
+    if(powerSub.style.display === "block"){
+        powerSub.style.display = "none";
+    }else{
+        powerSub.style.display = "block";
+    }
+});
+
+//Shut down跳转 sd.html
+shutdownItem.onclick = function(e){
+    e.stopPropagation();
+    window.location.href = "sd.html";
+};
+//Restart跳转 re.html
+restartItem.onclick = function(e){
+    e.stopPropagation();
+    window.location.href = "re.html";
+};
+
+//点击页面空白处关闭开始菜单和power子菜单
+document.body.addEventListener("click",function(){
+    startMenu.style.display = "none";
+    powerSub.style.display = "none";
+    startBtnImg.src = "start.png";
+    menuOpen = false;
+})
+</script>
+</body>
+</html>
